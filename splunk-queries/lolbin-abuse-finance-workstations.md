@@ -71,7 +71,7 @@ from your AD integration.
 
 > "If an APT group has achieved initial access in a financial sector environment,
 > they will avoid custom tooling in the first 30 days and instead abuse LOLBins
-> to establish persistence and move laterally — specifically targeting
+> to establish persistence and move laterally - specifically targeting
 > finance-role workstations where credential access yields high-value data."
 
 **Hunt trigger:** Any LOLBin execution on a finance-role workstation with no
