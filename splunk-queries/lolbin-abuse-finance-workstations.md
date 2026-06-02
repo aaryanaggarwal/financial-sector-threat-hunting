@@ -3,13 +3,13 @@
 ## Overview
 
 Detects living-off-the-land binary (LOLBin) abuse originating from finance-role
-workstations — a common pattern in APT intrusions targeting investment banking
+workstations, a common pattern in APT intrusions targeting investment banking
 environments. Threat actors operating in financial sector networks frequently
 avoid custom malware in early intrusion phases, instead abusing legitimate
 Windows binaries to blend with normal administrative activity.
 
 This query is particularly relevant for environments where finance workstations
-have limited administrative tooling requirements — any LOLBin execution on these
+have limited administrative tooling requirements, any LOLBin execution on these
 hosts should be treated as anomalous.
 
 ---
