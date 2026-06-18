@@ -1,7 +1,7 @@
 # Financial Sector Threat Hunting
 
 Practical threat hunting resources for financial services environments.
-SPL queries, YARA rules, and hunting hypotheses — all MITRE ATT&CK mapped and
+SPL queries, YARA rules, and hunting hypotheses - all MITRE ATT&CK mapped and
 documented for SOC teams operating in banking and financial infrastructure.
 
 Built from patterns observed across global Investment and Retail Banking environments.
@@ -40,5 +40,5 @@ to share, open a pull request or raise an issue.
 
 ## Author
 
-**Aaryan Aggarwal** — Threat Intelligence & Hunting, Deloitte  
+**Aaryan Aggarwal** - Threat Intelligence & Hunting, Deloitte  
 [LinkedIn](https://linkedin.com/in/aaryanaggarwal)
