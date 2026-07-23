@@ -27,20 +27,20 @@ for QakBot characteristics remains relevant even post-takedown.
 
 | Tactic | Technique | Notes |
 |---|---|---|
-| Initial Access | T1566.001 — Spearphishing Attachment | Delivered via malicious Office docs, ISO+LNK, and post-2023 signed MSI files |
-| Defense Evasion | T1027 — Obfuscated Files or Information | RC4-encrypted config in PE resources (pre-2023); AES C2 encryption in post-2023 variants |
-| Defense Evasion | T1497.001 — Virtualization/Sandbox Evasion | Checks for `C:\INTERNAL\__empty` to detect Windows Defender sandbox |
-| Defense Evasion | T1218.007 — System Binary Proxy Execution: Msiexec | Post-2023 variant executed via signed MSI, invoking the embedded DLL through export `hvsi` |
-| Credential Access | T1555 — Credentials from Password Stores | Browser credential harvesting |
-| Credential Access | T1056.001 — Input Capture: Keylogging | Documented QakBot capability |
-| Lateral Movement | T1021 — Remote Services | Uses stolen credentials for lateral movement |
-| Command & Control | T1071.001 — Web Protocols | C2 over HTTP/S; RC4 (pre-2023) and AES (post-2023, `/teorema505` POST path) |
+| Initial Access | T1566.001 - Spearphishing Attachment | Delivered via malicious Office docs, ISO+LNK, and post-2023 signed MSI files |
+| Defense Evasion | T1027 - Obfuscated Files or Information | RC4-encrypted config in PE resources (pre-2023); AES C2 encryption in post-2023 variants |
+| Defense Evasion | T1497.001 - Virtualization/Sandbox Evasion | Checks for `C:\INTERNAL\__empty` to detect Windows Defender sandbox |
+| Defense Evasion | T1218.007 - System Binary Proxy Execution: Msiexec | Post-2023 variant executed via signed MSI, invoking the embedded DLL through export `hvsi` |
+| Credential Access | T1555 - Credentials from Password Stores | Browser credential harvesting |
+| Credential Access | T1056.001 - Input Capture: Keylogging | Documented QakBot capability |
+| Lateral Movement | T1021 - Remote Services | Uses stolen credentials for lateral movement |
+| Command & Control | T1071.001 - Web Protocols | C2 over HTTP/S; RC4 (pre-2023) and AES (post-2023, `/teorema505` POST path) |
 
 ---
 
 ## YARA Rules
 
-### Rule 1 — QakBot DLL Loader (Core characteristics)
+### Rule 1 - QakBot DLL Loader (Core characteristics)
 
 ```yara
 import "pe"
@@ -48,7 +48,7 @@ import "pe"
 rule QakBot_DLL_Loader
 {
     meta:
-        description     = "Detects QakBot DLL loader — core PE characteristics and anti-sandbox behaviour"
+        description     = "Detects QakBot DLL loader - core PE characteristics and anti-sandbox behaviour"
         author          = "Aaryan Aggarwal"
         date            = "2024-06-01"
         tlp             = "WHITE"
@@ -77,7 +77,7 @@ rule QakBot_DLL_Loader
 }
 ```
 
-### Rule 2 — QakBot Post-Takedown Variant (December 2023+)
+### Rule 2 - QakBot Post-Takedown Variant (December 2023+)
 
 ```yara
 import "pe"
@@ -85,7 +85,7 @@ import "pe"
 rule QakBot_PostTakedown_64bit
 {
     meta:
-        description     = "Detects QakBot post-Duck Hunt resurrection variant (Dec 2023+) — 64-bit AES C2"
+        description     = "Detects QakBot post-Duck Hunt resurrection variant (Dec 2023+) - 64-bit AES C2"
         author          = "Aaryan Aggarwal"
         date            = "2024-06-01"
         tlp             = "WHITE"
@@ -118,12 +118,12 @@ rule QakBot_PostTakedown_64bit
 
 **False positives to expect:**
 
-- Rule 1 `$named_pipe` string is broad on its own — weighted as a supporting
+- Rule 1 `$named_pipe` string is broad on its own - weighted as a supporting
   indicator only, requiring at least one other QakBot-specific string alongside it.
 - `DllRegisterServer` export is common across legitimate COM DLLs; the export
   check must be combined with at least two behavioural strings.
 - Rule 2 `$c2_path` (`/teorema505`) is campaign-specific to the December 2023
-  wave — if operators rotate the URI path in future campaigns, this indicator
+  wave - if operators rotate the URI path in future campaigns, this indicator
   will need updating. Treat it as high-confidence but not evergreen.
 
 **Deployment recommendation:**
@@ -135,15 +135,15 @@ from MSI packages, since the post-2023 variant is MSI-delivered.
 Even if QakBot itself is not observed, the same phishing infrastructure and
 TTPs are now being used to distribute DarkGate and PikaBot. If either is
 observed in your environment, treat it as a signal that QakBot-affiliated
-actors have access — the delivery chain is the same.
+actors have access - the delivery chain is the same.
 
 ---
 
 ## References
 
-- [MITRE ATT&CK S0650 — QakBot](https://attack.mitre.org/software/S0650/)
+- [MITRE ATT&CK S0650 - QakBot](https://attack.mitre.org/software/S0650/)
 - [Elastic QBOT V4 Malware Analysis](https://www.elastic.co/security-labs/qbot-malware-analysis)
 - [CAPE Sandbox QakBot YARA](https://github.com/ctxis/CAPE/blob/master/data/yara/CAPE/QakBot.yar)
-- [FBI Operation Duck Hunt — August 2023](https://www.justice.gov/opa/pr/justice-department-disrupts-prolific-qakbot-malware-and-ransomware-operation)
-- [Zscaler ThreatLabz — /teorema505 C2 confirmation](https://x.com/Threatlabz/status/1735863156738871470)
-- [The Hacker News — QakBot resurgence, MSI/hvsi delivery](https://thehackernews.com/2023/12/qakbot-malware-resurfaces-with-new.html)
+- [FBI Operation Duck Hunt - August 2023](https://www.justice.gov/opa/pr/justice-department-disrupts-prolific-qakbot-malware-and-ransomware-operation)
+- [Zscaler ThreatLabz - /teorema505 C2 confirmation](https://x.com/Threatlabz/status/1735863156738871470)
+- [The Hacker News - QakBot resurgence, MSI/hvsi delivery](https://thehackernews.com/2023/12/qakbot-malware-resurfaces-with-new.html)
